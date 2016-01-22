@@ -17,9 +17,9 @@ public class NewsAdaptor extends BaseAdapter {
     private List<NewsBean> mList;
     private LayoutInflater mLayoutInflater;
 
-    public NewsAdaptor(Context context,List<NewsBean> list){
-        this.mList=list;
-        mLayoutInflater=LayoutInflater.from(context);
+    public NewsAdaptor(Context context, List<NewsBean> list) {
+        this.mList = list;
+        mLayoutInflater = LayoutInflater.from(context);
 
     }
 
@@ -40,26 +40,32 @@ public class NewsAdaptor extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder viewHolder=null;
+        ViewHolder viewHolder = null;
 
-        if(convertView==null){
-            viewHolder=new ViewHolder();
-            convertView=mLayoutInflater.inflate(R.layout.item,null);
+        if (convertView == null) {
+            viewHolder = new ViewHolder();
+            convertView = mLayoutInflater.inflate(R.layout.item, null);
 
-            viewHolder.imageView= (ImageView) convertView.findViewById(R.id.iv);
-            viewHolder.textView1= (TextView) convertView.findViewById(R.id.tv_title);
-            viewHolder.textView2= (TextView) convertView.findViewById(R.id.tv_content);
+            viewHolder.imageView = (ImageView) convertView.findViewById(R.id.iv);
+            viewHolder.textView1 = (TextView) convertView.findViewById(R.id.tv_title);
+            viewHolder.textView2 = (TextView) convertView.findViewById(R.id.tv_content);
 
             convertView.setTag(viewHolder);
-        }else {
-            viewHolder= (ViewHolder) convertView.getTag();
+        } else {
+            viewHolder = (ViewHolder) convertView.getTag();
         }
 
+        viewHolder.imageView.setTag(mList.get(position).newIconUrl);
 
-        if(mList.get(position).newIconUrl!=""){
 
-            new ImageLoader().showImageByThread(mList.get(position).newIconUrl,viewHolder.imageView);
-        }else {
+        if (mList.get(position).newIconUrl != "") {
+
+            //方式一：以线程的方式加载图片
+//            new ImageLoader().showImageByThread(mList.get(position).newIconUrl, viewHolder.imageView);
+
+            //方式二：以 AsyncTask的方式加载图片
+            new ImageLoader().showImageByAsyncTask(mList.get(position).newIconUrl, viewHolder.imageView);
+        } else {
             viewHolder.imageView.setImageResource(R.drawable.ic_launcher);
 
         }
@@ -74,7 +80,7 @@ public class NewsAdaptor extends BaseAdapter {
     class ViewHolder {
 
         ImageView imageView;
-        TextView textView1,textView2;
+        TextView textView1, textView2;
 
     }
 }

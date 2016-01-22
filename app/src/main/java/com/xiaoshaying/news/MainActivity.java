@@ -1,6 +1,5 @@
 package com.xiaoshaying.news;
 
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -24,7 +23,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
     private ListView mlistView;
 
-    private String url="http://op.juhe.cn/onebox/news/query?key=5adad212748e724c266a31bd9702fa36&q=";
+    private String url="http://www.imooc.com/api/teacher?type=4&num=90";
 
 
 
@@ -34,9 +33,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Intent intent=getIntent();
-
-        url=url+intent.getStringExtra("key");
+//        Intent intent=getIntent();
+//
+//        url=url+intent.getStringExtra("key");
 
         mlistView= (ListView) findViewById(R.id.listview);
 
@@ -59,16 +58,16 @@ public class MainActivity extends AppCompatActivity {
             jsonObject=new JSONObject(jsonString);
 
 
-            JSONArray jsonArray=jsonObject.getJSONArray("result");
+            JSONArray jsonArray=jsonObject.getJSONArray("data");
 
             for(int i=0;i<jsonArray.length();i++){
                 jsonObject=jsonArray.getJSONObject(i);
 
 
                 NewsBean newsBean=new NewsBean();
-                newsBean.content=jsonObject.getString("content");
-                newsBean.title=jsonObject.getString("title");
-                newsBean.newIconUrl=jsonObject.getString("img");
+                newsBean.content=jsonObject.getString("description");
+                newsBean.title=jsonObject.getString("name");
+                newsBean.newIconUrl=jsonObject.getString("picSmall");
 
 
                 newsBeanList.add(newsBean);
